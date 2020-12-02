@@ -1,15 +1,10 @@
 <?php
 
-// http://localhost:8000/form.php?login=foo&email=foo@example.com
+// http://localhost:8000/form.php?login=foo&email=foo@example.com&...
 
 echo '<pre>';
 var_dump($_POST);
 echo '</pre>';
-
-echo $_GET['login'];
-echo $_GET['email'];
-
-
 
 ?><!DOCTYPE html>
 <html lang="en">
