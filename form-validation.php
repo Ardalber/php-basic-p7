@@ -22,9 +22,20 @@ $twig = new Environment($loader, [
 $twig->addExtension(new DebugExtension());
 
 // traitement des données
+$formData = [
+    'login' => '',
+    'year' => '',
+    'email' => '@popschool.fr',
+];
 $errors = [];
 
 if ($_POST) {
+    foreach ($formData as $key => $value) {
+        if (isset($_POST[$key])) {
+            $formData[$key] = $_POST[$key];
+        }
+    }
+
     $minLength = 3;
     $maxLength = 10;
 
@@ -62,10 +73,18 @@ if ($_POST) {
     } elseif (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) == false) {
         $errors['email'] = 'merci de renseigner un email valide';
     }
+
+    // si il n'y a pas d'erreur, on redirige l'utilisateur vers la page d'accueil
+    if (!$errors) {
+        $url = '/';
+        header("Location: {$url}", true, 302);
+        exit();
+    }
 }
 
 // affichage du rendu d'un template
 echo $twig->render('form-validation.html.twig', [
     // transmission de données au template
     'errors' => $errors,
+    'formData' => $formData,
 ]);
